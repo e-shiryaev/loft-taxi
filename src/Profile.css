@@ -1,0 +1,27 @@
+.profile-form {
+  height: 506px;
+  width: 890px;
+  border-radius: 10px;
+  border: 1px solid;
+  margin: 40px auto;
+  position: relative;
+  padding: 50px;
+}
+
+.profile-card {
+  float: right;
+  margin-right: 100px;
+}
+
+.profile-card div {
+  margin-bottom: 20px;
+}
+
+.profile-form form {
+  float: left;
+  margin-left: 100px;
+}
+
+.profile-form .label {
+  margin-bottom: 100px;
+}

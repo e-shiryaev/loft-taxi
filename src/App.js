@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Map from "./Map";
+import Profile from "./Profile";
+import Login from "./Login";
+import Registration from "./Registration";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const pages = {Map, Profile, Login, Registration};
+
+class App extends React.Component {
+  state = {page: 'Login'};
+
+  redirect = (page) => {
+    this.setState({page})
+  }
+
+  render() {
+    const Page = pages[this.state.page]
+
+    return (
+      <div className="App">
+        <Page redirect={this.redirect}/>
+      </div>
+    );
+  }
 }
 
 export default App;
