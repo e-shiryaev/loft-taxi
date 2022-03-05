@@ -7,9 +7,9 @@ const nodes = [
   {name: 'Мариинский театр', id: 3},
 ];
 
-const Combobox = () => (
+const Combobox = (props) => (
   <div className="combobox">
-    <div>{this.props.text}:</div>
+    <div>{props.text}:</div>
 
     <select>
       {nodes.map(node => (
