@@ -2,17 +2,24 @@ import React from 'react';
 import Header from "./Header";
 import './Login.css';
 import LoginForm from "./LoginForm";
+import RegistrationForm from "./RegistrationForm";
+
 
 class Login extends React.Component {
-  redirect = (page) => {
-    this.props.redirect(page);
+  state = {isShowLoginForm: true};
+
+  toggleForm = () => {
+    this.setState({isShowLoginForm: !this.state.isShowLoginForm})
   }
 
   render() {
     return (
       <div>
-        <Header isVertical="1"/>
-        <LoginForm redirect={this.redirect}/>
+        <Header isVertical={true}/>
+
+        {this.state.isShowLoginForm ?
+          <LoginForm toggleForm={this.toggleForm}/> :
+          <RegistrationForm toggleForm={this.toggleForm}/>}
       </div>
     );
   }

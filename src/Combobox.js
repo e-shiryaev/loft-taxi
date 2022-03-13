@@ -1,4 +1,6 @@
 import React from 'react';
+import {FormControl, InputLabel, Select, MenuItem} from "@material-ui/core";
+import PropTypes from "prop-types";
 
 const nodes = [
   {name: 'Пулково (LED)', id: 0},
@@ -8,16 +10,26 @@ const nodes = [
 ];
 
 const Combobox = (props) => (
-  <div className="combobox">
-    <div>{props.text}:</div>
-
-    <select>
+  <FormControl fullWidth>
+    <InputLabel id={'label-' + props.id}>{props.label}:</InputLabel>
+    <Select
+      labelId={'label-' + props.id}
+      id={props.id}
+      value=""
+      label={props.label}
+      // onChange={handleChange}
+    >
       {nodes.map(node => (
-        <option key={node.id}>{node.name}</option>
+        <MenuItem key={props.id + '-' + node.id} value={node.id}>{node.name}</MenuItem>
       ))}
-    </select>
 
-  </div>
+    </Select>
+  </FormControl>
 );
+
+Combobox.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired
+}
 
 export default Combobox;

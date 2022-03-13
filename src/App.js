@@ -1,28 +1,36 @@
 import React from 'react';
 import './App.css';
 import Map from "./Map";
-import Profile from "./Profile";
 import Login from "./Login";
-import Registration from "./Registration";
-
-const pages = {Map, Profile, Login, Registration};
+import {WrapMapBox, MapBox} from "./MapBox";
+import {AuthProvider} from "./AuthContext";
 
 class App extends React.Component {
-  state = {page: 'Login'};
+  state = {isLoggedIn: false};
 
-  redirect = (page) => {
-    this.setState({page})
+  toggleAuth = (isLoggedIn) => {
+    this.setState({isLoggedIn})
   }
 
   render() {
-    const Page = pages[this.state.page]
-
     return (
-      <div className="App">
-        <Page redirect={this.redirect}/>
-      </div>
+      <AuthProvider toggleAuth={this.toggleAuth}>
+        <div className="App">
+          {this.state.isLoggedIn ? <Map/> : <Login/>}
+        </div>
+      </AuthProvider>
     );
   }
 }
 
-export default App;
+const AppAll = () => (
+  <>
+    <App/>
+
+    <WrapMapBox>
+      <MapBox/>
+    </WrapMapBox>
+  </>
+)
+
+export {App, AppAll};

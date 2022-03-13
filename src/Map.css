@@ -5,6 +5,7 @@
   border: 1px solid;
   margin: 40px;
   position: relative;
+  background-color: white;
 }
 
 .map-form .bottom {
@@ -30,8 +31,4 @@
 
 .button-car div {
   margin: 15px 0;
-}
-
-.submit {
-  margin: 40px;
 }

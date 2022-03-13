@@ -6,11 +6,16 @@
   margin: 40px auto;
   position: relative;
   padding: 50px;
+  background-color: white;
 }
 
 .profile-card {
-  float: right;
-  margin-right: 100px;
+  position: absolute;
+  right: 100px;
+  border: 1px solid;
+  width: 347px;
+  height: 190px;
+  bottom: 0;
 }
 
 .profile-card div {
