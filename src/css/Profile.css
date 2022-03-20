@@ -1,12 +1,9 @@
-.profile-form {
+.profile {
   height: 506px;
   width: 890px;
-  border-radius: 10px;
-  border: 1px solid;
   margin: 40px auto;
   position: relative;
   padding: 50px;
-  background-color: white;
 }
 
 .profile-card {
@@ -15,7 +12,7 @@
   border: 1px solid;
   width: 347px;
   height: 190px;
-  bottom: 0;
+  top: 145px;
 }
 
 .profile-card div {

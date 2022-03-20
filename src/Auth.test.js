@@ -1,25 +1,34 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import {App} from "./App";
+import App from "./App";
+import {Provider} from "react-redux";
+import {store} from './store';
 
-// describe("Auth test", () => {
-  // it('Test successful authorization', () => {
-  //   const { getByTestId, queryByTestId } = render(<App/>);
+const Test = () => (
+  <Provider store={store}><App/></Provider>
+);
 
-    // fireEvent.change(getByTestId('textfield-login-email'), {target: {value: 'test@test.mail.com'}});
-    // fireEvent.change(getByTestId('textfield-login-password'), {target: {value: 'test'}});
+describe("Auth test", () => {
+  it('Test successful authorization', () => {
+    const { getByTestId, queryByTestId } = render(<Test/>);
 
-    // fireEvent.click(getByTestId('button-login'));
-    // expect(queryByTestId('submit-map').textContent).not.toBe('Заказать');
+    fireEvent.change(getByTestId('textfield-login-email'), {target: {value: 'test@test.mail.com'}});
+    fireEvent.change(getByTestId('textfield-login-password'), {target: {value: 'test'}});
 
-    // fireEvent.click(getByTestId('button-login'));
-    // expect(queryByTestId('submit-map').textContent).toBe('Заказать');
-  // })
+    fireEvent.click(getByTestId('button-login'));
+    const submitMap = queryByTestId('submit-map');
 
-  // it('Test unsuccessful authorization', () => {
-  //   const { getByTestId, queryByTestId } = render(<App/>);
-  //
-  //   fireEvent.click(getByTestId('button-login'));
-  //   expect(queryByTestId('submit-map').textContent).toBeFalsy();
-  // })
-// });
+    expect(submitMap).not.toBeNull();
+    expect(submitMap.textContent).toBe('Заказать');
+
+    fireEvent.click(getByTestId('navigation-link-logout'));
+    expect(queryByTestId('submit-map')).toBeNull();
+  })
+
+  it('Test unsuccessful authorization', () => {
+    const { getByTestId, queryByTestId } = render(<App/>);
+
+    fireEvent.click(getByTestId('button-login'));
+    expect(queryByTestId('submit-map')).toBeNull();
+  })
+});

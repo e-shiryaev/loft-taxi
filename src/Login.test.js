@@ -1,10 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import Login from "./Login";
+import App from "./App";
 
 describe("toggle Auth form", () => {
   it('click link and toggle form', () => {
-    const { getByTestId } = render(<Login/>);
+    const { getByTestId } = render(<App/>);
 
     fireEvent.click(getByTestId('toggle-link'));
     expect(getByTestId('label-form').textContent).toBe('Регистрация');

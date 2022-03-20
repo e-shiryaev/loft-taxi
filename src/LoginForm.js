@@ -1,6 +1,10 @@
 import React from 'react';
-import {Button, TextField} from "@material-ui/core";
-import {authHOC} from "./AuthContext";
+import {Button, TextField} from "@mui/material";
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {auth} from "./actions";
+import './css/Form.css';
+import './css/Login.css';
 
 class LoginForm extends React.Component {
   state = {email: '', password: '', isErrorEmail: false, isErrorPassword: false};
@@ -17,54 +21,70 @@ class LoginForm extends React.Component {
     const isErrorPassword = state.password.length === 0;
 
 
-    this.setState({isErrorEmail, isErrorPassword})
+    this.setState({isErrorEmail, isErrorPassword});
 
     if (!isErrorEmail && !isErrorPassword) {
-      this.props.login(state.email, state.password);
+      this.props.auth(state.email, state.password);
     }
   }
 
   render() {
     return (
-      <div className="login-form">
-        <div data-testid="label-form">Войти</div>
-        <form>
+      <div className="form login">
+        <div data-testid="label-form" className="label-form">Войти</div>
           <div>
             <TextField
               error={this.state.isErrorEmail}
               id="email"
-              data-testid="textfield-login-email"
+              inputProps={{
+                'data-testid': "textfield-login-email"
+              }}
               label="Имя пользователя*"
               placeholder="mail@mail.ru"
               variant="standard"
               onChange={this.onChangeTextField}
+              fullWidth
             />
           </div>
           <div>
             <TextField
               error={this.state.isErrorPassword}
               id="password"
-              data-testid="textfield-login-password"
+              inputProps={{
+                'data-testid': "textfield-login-password"
+              }}
               type="password"
               label="Пароль*"
               placeholder="********"
               variant="standard"
               onChange={this.onChangeTextField}
+              fullWidth
             />
           </div>
 
-          <Button data-testid="button-login" variant="contained" color="primary" onClick={this.login}>Войти</Button>
+          <div style={{color: "red"}}>{this.props.errorAuth || ''}</div>
+
+          <Button
+            data-testid="button-login"
+            variant="contained"
+            onClick={this.login}
+            fullWidth
+          >Войти</Button>
 
           <div>Новый пользователь?</div>
 
-          <Button color="primary" data-testid="toggle-link" onClick={this.props.toggleForm}>Зарегистрируйтесь</Button>
+          <Link
+            data-testid="toggle-link"
+            to="/registration"
+            className="link-active"
+          >Зарегистрируйтесь</Link>
 
-        </form>
       </div>
     );
   }
 }
 
-LoginForm = authHOC(LoginForm);
-
-export default LoginForm;
+export default connect(
+  (state) => ({errorAuth: state.auth.errorAuth}),
+  {auth}
+)(LoginForm);

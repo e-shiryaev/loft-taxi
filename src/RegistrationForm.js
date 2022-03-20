@@ -1,36 +1,55 @@
 import React from 'react';
-import {Button, Link, TextField} from "@material-ui/core";
-import {authHOC} from "./AuthContext";
-
-let AuthButton = ({ login }) => (
-  <Button variant="contained" color="primary" onClick={login}>Зарегистрироваться</Button>
-);
-
-AuthButton = authHOC(AuthButton);
+import {Button, TextField} from "@mui/material";
+import {Link} from "react-router-dom";
+import './css/Login.css';
 
 class RegistrationForm extends React.Component {
   render() {
     return (
-      <div className="login-form">
-        <div data-testid="label-form">Регистрация</div>
+      <div className="form login">
+        <div data-testid="label-form" className="label-form">Регистрация</div>
         <form>
           <div>
-            <TextField id="email" label="Адрес электронной почты*" placeholder="mail@mail.ru" variant="standard" />
+            <TextField
+              id="email"
+              label="Адрес электронной почты*"
+              placeholder="mail@mail.ru"
+              variant="standard"
+              fullWidth
+            />
           </div>
 
           <div>
-            <TextField id="first_name" label="Имя*" variant="standard" />
-            <TextField id="last_name" label="Фамилия*" variant="standard" />
+            <TextField
+              id="first_name"
+              label="Имя*"
+              variant="standard"
+              className="input-inline"
+            />
+            <TextField
+              id="last_name"
+              label="Фамилия*"
+              variant="standard"
+              className="input-inline"
+            />
           </div>
 
           <div>
-            <TextField id="password" type="password" label="Пароль*" placeholder="********" variant="standard" />
+            <TextField
+              id="password"
+              type="password"
+              label="Пароль*"
+              placeholder="********"
+              variant="standard"
+              fullWidth
+            />
           </div>
 
-          <AuthButton/>
+          <Button variant="contained" color="primary">Зарегистрироваться</Button>
 
-          <div>Уже зарегистрированы?</div>
-          <Link data-testid="toggle-link" onClick={this.props.toggleForm}>Войти</Link>
+          <div>Уже зарегистрированы? &nbsp;
+            <Link data-testid="toggle-link" className="link-active" to="/">Войти</Link>
+          </div>
         </form>
       </div>
     );
