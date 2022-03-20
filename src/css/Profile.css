@@ -1,16 +1,18 @@
-.profile-form {
+.profile {
   height: 506px;
   width: 890px;
-  border-radius: 10px;
-  border: 1px solid;
   margin: 40px auto;
   position: relative;
   padding: 50px;
 }
 
 .profile-card {
-  float: right;
-  margin-right: 100px;
+  position: absolute;
+  right: 100px;
+  border: 1px solid;
+  width: 347px;
+  height: 190px;
+  top: 145px;
 }
 
 .profile-card div {

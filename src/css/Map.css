@@ -1,0 +1,18 @@
+.form.map {
+  height: 460px;
+  width: 486px;
+  margin: 40px;
+}
+
+.button-car {
+  height: 166px;
+  width: 118px;
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px solid;
+  margin: 10px;
+}
+
+.button-car div {
+  margin: 15px 0;
+}

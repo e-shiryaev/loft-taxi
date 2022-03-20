@@ -1,24 +1,29 @@
 import React from "react";
-
-const menus = [{key: 'Map', name: 'Карта'}, {key: 'Profile', name: 'Профиль'}, {key: 'Login', name: 'Выйти'}];
+import {Link as UILink} from "@material-ui/core";
+import {Logo} from 'loft-taxi-mui-theme';
+// import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {logOut} from "./actions";
+import {Link} from 'react-router-dom'
 
 class Header extends React.Component {
-  redirect = (event) => {
-    this.props.redirect(event.target.parentElement.id);
-  }
-
   render() {
 
     return (
-      <header className={this.props.isVertical ? 'header-vertical' : 'header'}>
-        <div className="logo">Логотип-картинка</div>
+      <header className={this.props.isLoggedIn ? 'header' : 'header-vertical'}>
+        <div className="logo"><Logo/></div>
 
         <div className="navigation">
-          {menus.map(menu => (
-            <div className="navigation-button" id={menu.key} key={menu.key} onClick={this.redirect}>
-              <div>{menu.name}</div>
-            </div>
-          ))}
+          <div className="navigation-button" id="Map">
+            <Link data-testid="navigation-link-map" to="/map">Карта</Link>
+          </div>
+          <div className="navigation-button" id="Profile">
+            <Link data-testid="navigation-link-profile" to="/profile">Профиль</Link>
+          </div>
+
+          <div className="navigation-button">
+            <UILink data-testid="navigation-link-logout" onClick={this.props.logOut}>Выйти</UILink>
+          </div>
         </div>
 
       </header>
@@ -26,4 +31,7 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default connect(
+  (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+  {logOut}
+)(Header);

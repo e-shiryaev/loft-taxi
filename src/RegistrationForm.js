@@ -1,30 +1,55 @@
 import React from 'react';
-import Submit from "./ButtonSubmit";
-import Textbox from "./Textbox";
+import {Button, TextField} from "@mui/material";
+import {Link} from "react-router-dom";
+import './css/Login.css';
 
 class RegistrationForm extends React.Component {
-  redirectMap = (event) => {
-    event.preventDefault();
-    this.props.redirect('Map');
-  }
-
-  redirectLogin = () => {
-    this.props.redirect('Login');
-  }
-
   render() {
     return (
-      <div className="login-form">
-        <form onSubmit={this.redirectMap}>
-          <Textbox text="Адрес электронной почты*" name="email"/>
-          <Textbox text="Имя*" name="first_name"/>
-          <Textbox text="Фамилия*" name="last_name"/>
-          <Textbox text="Пароль*" name="login"/>
+      <div className="form login">
+        <div data-testid="label-form" className="label-form">Регистрация</div>
+        <form>
+          <div>
+            <TextField
+              id="email"
+              label="Адрес электронной почты*"
+              placeholder="mail@mail.ru"
+              variant="standard"
+              fullWidth
+            />
+          </div>
 
-          <Submit text="Зарегистрироваться"/>
+          <div>
+            <TextField
+              id="first_name"
+              label="Имя*"
+              variant="standard"
+              className="input-inline"
+            />
+            <TextField
+              id="last_name"
+              label="Фамилия*"
+              variant="standard"
+              className="input-inline"
+            />
+          </div>
 
-          <div>Уже зарегистрированы?</div>
-          <a onClick={this.redirectLogin}>Войти</a>
+          <div>
+            <TextField
+              id="password"
+              type="password"
+              label="Пароль*"
+              placeholder="********"
+              variant="standard"
+              fullWidth
+            />
+          </div>
+
+          <Button variant="contained" color="primary">Зарегистрироваться</Button>
+
+          <div>Уже зарегистрированы? &nbsp;
+            <Link data-testid="toggle-link" className="link-active" to="/">Войти</Link>
+          </div>
         </form>
       </div>
     );
