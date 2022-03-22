@@ -1,16 +1,19 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import App from "./App";
+import App from "../App";
 import {Provider} from "react-redux";
-import {store} from './store';
+import {store} from '../store';
+import {MemoryRouter} from "react-router-dom";
 
 const Test = () => (
-  <Provider store={store}><App/></Provider>
+  <Provider store={store}>
+    <App/>
+  </Provider>
 );
 
 describe("Auth test", () => {
   it('Test successful authorization', () => {
-    const { getByTestId, queryByTestId } = render(<Test/>);
+    const { getByTestId, queryByTestId } = render(<Test/>, {wrapper: MemoryRouter});
 
     fireEvent.change(getByTestId('textfield-login-email'), {target: {value: 'test@test.mail.com'}});
     fireEvent.change(getByTestId('textfield-login-password'), {target: {value: 'test'}});
