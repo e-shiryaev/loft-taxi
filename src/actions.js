@@ -11,7 +11,7 @@ export const logIn = (token) => ({type: LOG_IN, payload: {token}});
 export const errorLogIn = (error) => ({type: ERROR_LOG_IN, payload: {error}});
 export const logOut = () => ({type: LOG_OUT});
 export const auth = (email, password) => ({type: AUTH, payload: {email, password}});
-export const changeCard = () => ({type: CHANGE_CARD});
+export const changeCard = (inputs) => ({type: CHANGE_CARD, payload: {...inputs}});
 export const loadCard = () => ({type: LOAD_CARD});
 export const setCard = (inputs) => ({type: SET_CARD, payload: {...inputs}});
 export const errorChangeCard = (error) => ({type: ERROR_CHANGE_CARD, payload: {error}});
