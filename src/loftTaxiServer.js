@@ -29,3 +29,19 @@ export const serverLoadCard = async (token) => {
     }
   ).then(res => res.json());
 }
+
+export const serverLoadAddressList = async () => {
+  return fetch(
+    `https://loft-taxi.glitch.me/addressList`, {
+      method: 'GET'
+    }
+  ).then(res => res.json()).then(res => res.addresses);
+}
+
+export const serverRoute = async (from, to) => {
+  return fetch(
+    `https://loft-taxi.glitch.me/route?address1=${from}&address2=${to}`, {
+      method: 'GET'
+    }
+  ).then(res => res.json());
+}

@@ -9,6 +9,7 @@ import RegistrationForm from "./RegistrationForm";
 import MapForm from "./MapForm";
 import ProfileForm from "./ProfileForm";
 import {WrapMapBox, MapBox} from "./MapBox";
+import {hasLogged} from "./reducers";
 
 class App extends React.Component {
 
@@ -44,5 +45,5 @@ class App extends React.Component {
 }
 
 export default connect(
-  (state) => ({isLoggedIn: state.auth.isLoggedIn})
+  (state) => ({isLoggedIn: hasLogged(state)})
 )(App);

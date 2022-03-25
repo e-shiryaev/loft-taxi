@@ -8,7 +8,7 @@ const initialState = {
   card: localStorage.getItem('cardInfo') ? JSON.parse(localStorage.getItem('cardInfo')) : {}
 }
 
-export const auth = function(state = initialState, action) {
+export const user = function(state = initialState, action) {
   switch (action.type) {
     case LOG_IN:
       return {...state, isLoggedIn: true, token: action.payload.token, errorAuth: null};
