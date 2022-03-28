@@ -5,7 +5,7 @@ import {Button} from "@mui/material";
 import './css/Map.css';
 import {connect} from "react-redux";
 import {loadAddressList, loadCard, loadRoute} from "./actions";
-import {getAddressList, getCardInfo} from "./reducers";
+import {getAddressList, getCardInfo, getErrorRoute} from "./reducers";
 
 const cars = [
   {text: 'Стандарт', price: 150, imj: 'Машинка1', id: 0},
@@ -14,7 +14,7 @@ const cars = [
 ];
 
 class MapForm extends React.Component {
-  state = {comboFromValue: null, comboToValue: null, error: ''}
+  state = {comboFromValue: '', comboToValue: '', error: ''}
 
   componentDidMount() {
     if (!this.props.cardInfo.cardNumber) {
@@ -36,25 +36,11 @@ class MapForm extends React.Component {
 
   submit = () => {
     const {comboToValue, comboFromValue} = this.state;
-    const {cardInfo, addresses} = this.props;
+    const {addresses} = this.props;
 
-    if (comboToValue === null || comboFromValue === null) {
+    if (comboToValue === '' || comboFromValue === '') {
       this.setState({error: 'Необходимо выбрать адреса'});
       return;
-    }
-
-    const keys = {
-      expiryDate: '',
-      cardNumber: '',
-      cardName: '',
-      cvc: ''
-    };
-
-    for (let key in keys) {
-      if (!cardInfo[key] || cardInfo[key] === null) {
-        this.setState({error: 'Не заполнены данные кредитной карты'});
-        return;
-      }
     }
 
     this.props.loadRoute(addresses[comboFromValue], addresses[comboToValue]);
@@ -68,12 +54,14 @@ class MapForm extends React.Component {
             id="combo-from"
             handleChange={this.handleChange}
             excludeIndex={this.state.comboToValue}
+            value={this.state.comboFromValue}
           />
           <Combobox
             label="Куда"
             id="combo-to"
             handleChange={this.handleChange}
             excludeIndex={this.state.comboFromValue}
+            value={this.state.comboToValue}
           />
 
           <div className="bottom">
@@ -83,7 +71,7 @@ class MapForm extends React.Component {
               ))}
             </div>
 
-            <div style={{color: "red"}}>{this.state.error}</div>
+            <div style={{color: "red"}}>{this.state.error || this.props.errorRoute}</div>
 
             <Button
               data-testid="submit-map"
@@ -98,6 +86,10 @@ class MapForm extends React.Component {
 }
 
 export default connect(
-  (state) => ({cardInfo: getCardInfo(state), addresses: getAddressList(state)}),
+  (state) => ({
+    cardInfo: getCardInfo(state),
+    addresses: getAddressList(state),
+    errorRoute: getErrorRoute(state)
+  }),
   {loadCard, loadAddressList, loadRoute}
 )(MapForm);

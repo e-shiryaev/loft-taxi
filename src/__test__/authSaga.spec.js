@@ -1,6 +1,6 @@
 import {recordSaga} from "../recordSaga";
 import authSaga from "../sagas/authSaga";
-import {auth, LOG_IN} from "../actions";
+import {auth, LOG_IN_SUCCESS} from "../actions";
 import {serverLogin} from "../loftTaxiServer";
 
 jest.mock('../loftTaxiServer', () => ({serverLogin: jest.fn()}));
@@ -15,7 +15,7 @@ describe('autMiddleware', () => {
       const dispatched = await recordSaga(authSaga, auth(login, password));
 
       expect(dispatched).toEqual([{
-        type: LOG_IN,
+        type: LOG_IN_SUCCESS,
         payload: {token: 'abc'}
       }]);
     });

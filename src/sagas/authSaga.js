@@ -1,6 +1,6 @@
 import {call, put, takeEvery} from 'redux-saga/effects';
 import {serverLogin} from "../loftTaxiServer";
-import {AUTH, errorLogIn, LOG_OUT, logIn} from "../actions";
+import {LOG_IN_REQUEST, errorLogIn, LOG_OUT, logIn} from "../actions";
 
 const authorization = function* (action) {
   const {email, password} = action.payload;
@@ -18,7 +18,7 @@ const authorization = function* (action) {
 }
 
 const authSaga = function* () {
-  yield takeEvery(AUTH, authorization);
+  yield takeEvery(LOG_IN_REQUEST, authorization);
   yield takeEvery(LOG_OUT, function () {
     localStorage.clear();
   });

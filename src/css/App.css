@@ -49,3 +49,9 @@
   margin: 50% auto;
   top: 50%;
 }
+
+.wrap-mapbox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

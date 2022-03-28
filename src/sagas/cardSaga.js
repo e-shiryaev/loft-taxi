@@ -1,6 +1,6 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {serverLoadCard, serverSaveCard} from "../loftTaxiServer";
-import {CHANGE_CARD, errorChangeCard, LOAD_CARD, setCard} from "../actions";
+import {USER_CARD_REQUEST_UPDATE, errorChangeCard, USER_CARD_REQUEST_GET, setCard} from "../actions";
 import {getToken} from "../reducers";
 
 const changeCard = function* (action) {
@@ -33,8 +33,8 @@ const fetchCard = function* () {
 
 
 const cardSaga = function* () {
-  yield takeEvery(CHANGE_CARD, changeCard);
-  yield takeEvery(LOAD_CARD, fetchCard);
+  yield takeEvery(USER_CARD_REQUEST_UPDATE, changeCard);
+  yield takeEvery(USER_CARD_REQUEST_GET, fetchCard);
 }
 
 export default cardSaga;

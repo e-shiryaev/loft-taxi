@@ -14,7 +14,7 @@ class Combobox extends React.Component {
         <Select
           labelId={'label-' + this.props.id}
           name={this.props.id}
-          value=""
+          value={this.props.value}
           label={this.props.label}
           onChange={this.props.handleChange}
         >

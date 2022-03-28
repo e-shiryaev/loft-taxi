@@ -1,4 +1,4 @@
-import {ERROR_CHANGE_CARD, ERROR_LOG_IN, LOG_IN, LOG_OUT, SET_CARD} from "../actions";
+import {USER_CARD_ERROR, ERROR_LOG_IN, LOG_IN_SUCCESS, LOG_OUT, USER_CARD_SUCCESS} from "../actions";
 
 const initialState = {
   isLoggedIn: !!localStorage.getItem('isLoggedIn'),
@@ -10,15 +10,15 @@ const initialState = {
 
 export const user = function(state = initialState, action) {
   switch (action.type) {
-    case LOG_IN:
+    case LOG_IN_SUCCESS:
       return {...state, isLoggedIn: true, token: action.payload.token, errorAuth: null};
     case LOG_OUT:
       return {...state, isLoggedIn: false, token: null, errorAuth: null, card: {}};
     case ERROR_LOG_IN:
       return {...state, isLoggedIn: false, token: null, errorAuth: action.payload.error};
-    case SET_CARD:
+    case USER_CARD_SUCCESS:
       return {...state, card: {...action.payload}, errorCard: null};
-    case ERROR_CHANGE_CARD:
+    case USER_CARD_ERROR:
       return {...state, card: {}, errorCard: action.payload.error};
     default:
       return state;
