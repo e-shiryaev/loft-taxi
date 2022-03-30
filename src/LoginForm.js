@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {auth} from "./actions";
 import './css/Form.css';
 import './css/Login.css';
+import {getErrorAuth} from "./reducers";
 
 class LoginForm extends React.Component {
   state = {email: '', password: '', isErrorEmail: false, isErrorPassword: false};
@@ -85,6 +86,6 @@ class LoginForm extends React.Component {
 }
 
 export default connect(
-  (state) => ({errorAuth: state.auth.errorAuth}),
+  (state) => ({errorAuth: getErrorAuth(state)}),
   {auth}
 )(LoginForm);

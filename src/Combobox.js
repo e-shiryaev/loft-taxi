@@ -1,35 +1,34 @@
 import React from 'react';
 import {FormControl, InputLabel, Select, MenuItem} from "@material-ui/core";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {getAddressList} from "./reducers";
 
-const nodes = [
-  {name: 'Пулково (LED)', id: 0},
-  {name: 'Эрмитаж', id: 1},
-  {name: 'Кинотеатр Аврора', id: 2},
-  {name: 'Мариинский театр', id: 3},
-];
+class Combobox extends React.Component {
 
-const Combobox = (props) => (
-  <FormControl fullWidth>
-    <InputLabel id={'label-' + props.id}>{props.label}:</InputLabel>
-    <Select
-      labelId={'label-' + props.id}
-      id={props.id}
-      value=""
-      label={props.label}
-      // onChange={handleChange}
-    >
-      {nodes.map(node => (
-        <MenuItem key={props.id + '-' + node.id} value={node.id}>{node.name}</MenuItem>
-      ))}
+  render() {
 
-    </Select>
-  </FormControl>
-);
+    return (
+      <FormControl fullWidth>
+        <InputLabel id={'label-' + this.props.id}>{this.props.label}:</InputLabel>
+        <Select
+          labelId={'label-' + this.props.id}
+          name={this.props.id}
+          value={this.props.value}
+          label={this.props.label}
+          onChange={this.props.handleChange}
+        >
 
-Combobox.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired
+          {this.props.addresses.map((node, index) => (
+            index !== this.props.excludeIndex ? <MenuItem key={this.props.id + '-' + index} value={index}>{node}</MenuItem> : ''
+          ))}
+
+        </Select>
+      </FormControl>
+    );
+  }
 }
 
-export default Combobox;
+export default connect(
+  (state) => ({addresses: getAddressList(state)}),
+)(Combobox);

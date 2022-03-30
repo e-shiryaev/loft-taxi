@@ -8,7 +8,8 @@ import LoginForm from "./LoginForm";
 import RegistrationForm from "./RegistrationForm";
 import MapForm from "./MapForm";
 import ProfileForm from "./ProfileForm";
-import {WrapMapBox, MapBox} from "./MapBox";
+import MapBox from "./MapBox";
+import {hasLogged} from "./reducers";
 
 class App extends React.Component {
 
@@ -20,9 +21,7 @@ class App extends React.Component {
 
           {this.props.isLoggedIn ?
             <>
-              <WrapMapBox>
-                <MapBox/>
-              </WrapMapBox>
+              <MapBox/>
 
               <Switch>
                 <Route path="/map" component={MapForm}/>
@@ -44,5 +43,5 @@ class App extends React.Component {
 }
 
 export default connect(
-  (state) => ({isLoggedIn: state.auth.isLoggedIn})
+  (state) => ({isLoggedIn: hasLogged(state)})
 )(App);

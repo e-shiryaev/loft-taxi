@@ -5,6 +5,7 @@ import {Logo} from 'loft-taxi-mui-theme';
 import {connect} from "react-redux";
 import {logOut} from "./actions";
 import {Link} from 'react-router-dom'
+import {hasLogged} from "./reducers";
 
 class Header extends React.Component {
   render() {
@@ -32,6 +33,6 @@ class Header extends React.Component {
 }
 
 export default connect(
-  (state) => ({isLoggedIn: state.auth.isLoggedIn}),
+  (state) => ({isLoggedIn: hasLogged(state)}),
   {logOut}
 )(Header);

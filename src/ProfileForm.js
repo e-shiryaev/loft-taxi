@@ -5,6 +5,7 @@ import './css/Map.css'
 import './css/Profile.css';
 import {connect} from "react-redux";
 import {changeCard} from "./actions";
+import {getCardInfo, getErrorCard} from "./reducers";
 
 
 class ProfileForm extends React.Component {
@@ -136,6 +137,6 @@ class ProfileForm extends React.Component {
 }
 
 export default connect(
-  (state) => ({errorCard: state.auth.errorCard, cardInfo: state.auth.card}),
+  (state) => ({errorCard: getErrorCard(state), cardInfo: getCardInfo(state)}),
   {changeCard}
 )(ProfileForm);
