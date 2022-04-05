@@ -10,6 +10,18 @@ export const serverLogin = async (email, password) => {
   ).then(res => res.json());
 }
 
+export const serverRegistration = async (input) => {
+  return fetch(
+    `https://loft-taxi.glitch.me/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(input)
+    }
+  ).then(res => res.json());
+}
+
 export const serverSaveCard = async (payload) => {
   return fetch(
     `https://loft-taxi.glitch.me/card`, {

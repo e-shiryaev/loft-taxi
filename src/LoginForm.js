@@ -6,71 +6,82 @@ import {auth} from "./actions";
 import './css/Form.css';
 import './css/Login.css';
 import {getErrorAuth} from "./reducers";
+import { Form, Field } from 'react-final-form';
 
 class LoginForm extends React.Component {
-  state = {email: '', password: '', isErrorEmail: false, isErrorPassword: false};
-
-  onChangeTextField = (event) => {
-    if (this.state[event.target.id] !== undefined) {
-      this.setState({[event.target.id]: event.target.value});
-    }
-  }
-
-  login = () => {
-    const state = this.state;
-    const isErrorEmail = state.email.length === 0;
-    const isErrorPassword = state.password.length === 0;
-
-
-    this.setState({isErrorEmail, isErrorPassword});
-
-    if (!isErrorEmail && !isErrorPassword) {
-      this.props.auth(state.email, state.password);
-    }
+  login = (values) => {
+    this.props.auth(values.email, values.password);
   }
 
   render() {
     return (
       <div className="form login">
         <div data-testid="label-form" className="label-form">Войти</div>
-          <div>
-            <TextField
-              error={this.state.isErrorEmail}
-              id="email"
-              inputProps={{
-                'data-testid': "textfield-login-email"
-              }}
-              label="Имя пользователя*"
-              placeholder="mail@mail.ru"
-              variant="standard"
-              onChange={this.onChangeTextField}
-              fullWidth
-            />
-          </div>
-          <div>
-            <TextField
-              error={this.state.isErrorPassword}
-              id="password"
-              inputProps={{
-                'data-testid': "textfield-login-password"
-              }}
-              type="password"
-              label="Пароль*"
-              placeholder="********"
-              variant="standard"
-              onChange={this.onChangeTextField}
-              fullWidth
-            />
-          </div>
+        <Form
+          onSubmit={this.login}
+          validate={values => {
+            const errors = {};
+            const keys = {email: 0, password: 0};
 
-          <div style={{color: "red"}}>{this.props.errorAuth || ''}</div>
+            for (let key in keys) {
+              if (!values[key]) {
+                errors[key] = true;
+              }
+            }
 
-          <Button
-            data-testid="button-login"
-            variant="contained"
-            onClick={this.login}
-            fullWidth
-          >Войти</Button>
+            return errors
+          }}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <Field name="email">
+                {({ input, meta }) => (
+                  <div>
+                    <TextField
+                      error={meta.error && meta.touched}
+                      {...input}
+                      inputProps={{
+                        'data-testid': "textfield-login-email"
+                      }}
+                      label="Имя пользователя*"
+                      placeholder="mail@mail.ru"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </div>
+                )}
+              </Field>
+              <Field name="password">
+                {({ input, meta }) => (
+                  <div>
+                    <TextField
+                      error={meta.error && meta.touched}
+                      {...input}
+                      inputProps={{
+                        'data-testid': "textfield-login-password"
+                      }}
+                      type="password"
+                      label="Пароль*"
+                      placeholder="********"
+                      variant="standard"
+                      fullWidth
+                    />
+                  </div>
+                )}
+              </Field>
+
+              <div style={{color: "red"}}>{this.props.errorAuth || ''}</div>
+
+              <Button
+                data-testid="button-login"
+                variant="contained"
+                onClick={form.submit}
+                disabled={submitting}
+                fullWidth
+              >Войти</Button>
+
+            </form>
+          )}
+        />
 
           <div>Новый пользователь?</div>
 

@@ -1,4 +1,4 @@
-import {USER_CARD_ERROR, ERROR_LOG_IN, LOG_IN_SUCCESS, LOG_OUT, USER_CARD_SUCCESS} from "../actions";
+import {USER_CARD_ERROR, LOG_IN_ERROR, LOG_IN_SUCCESS, LOG_OUT, USER_CARD_SUCCESS} from "../actions";
 
 const initialState = {
   isLoggedIn: !!localStorage.getItem('isLoggedIn'),
@@ -14,7 +14,7 @@ export const user = function(state = initialState, action) {
       return {...state, isLoggedIn: true, token: action.payload.token, errorAuth: null};
     case LOG_OUT:
       return {...state, isLoggedIn: false, token: null, errorAuth: null, card: {}};
-    case ERROR_LOG_IN:
+    case LOG_IN_ERROR:
       return {...state, isLoggedIn: false, token: null, errorAuth: action.payload.error};
     case USER_CARD_SUCCESS:
       return {...state, card: {...action.payload}, errorCard: null};

@@ -1,6 +1,8 @@
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
-export const ERROR_LOG_IN = 'ERROR_LOG_IN';
+export const LOG_IN_ERROR = 'LOG_IN_ERROR';
+
+export const REGISTRATION_REQUEST = 'REGISTRATION_REQUEST';
 
 export const LOG_OUT = 'LOG_OUT';
 
@@ -16,7 +18,7 @@ export const MAP_ROUTE_REQUEST = 'MAP_ROUTE_REQUEST';
 export const MAP_ALL_ERROR = 'MAP_ALL_ERROR';
 
 export const logIn = (token) => ({type: LOG_IN_SUCCESS, payload: {token}});
-export const errorLogIn = (error) => ({type: ERROR_LOG_IN, payload: {error}});
+export const errorLogIn = (error) => ({type: LOG_IN_ERROR, payload: {error}});
 export const logOut = () => ({type: LOG_OUT});
 export const auth = (email, password) => ({type: LOG_IN_REQUEST, payload: {email, password}});
 export const changeCard = (inputs) => ({type: USER_CARD_REQUEST_UPDATE, payload: {...inputs}});
@@ -28,3 +30,4 @@ export const setAddressList = (addressList) => ({type: MAP_ADDRESS_SUCCESS, payl
 export const loadRoute = (from, to) => ({type: MAP_ROUTE_REQUEST, payload: {from, to}});
 export const errorRoute = (error) => ({type: MAP_ALL_ERROR, payload: {error}});
 export const setLinestring = (linestring) => ({type: MAP_ROUTE_SUCCESS, payload: {linestring}});
+export const registration = (inputs) => ({type: REGISTRATION_REQUEST, payload: {...inputs}});

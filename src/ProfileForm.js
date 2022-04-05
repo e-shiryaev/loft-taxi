@@ -6,64 +6,12 @@ import './css/Profile.css';
 import {connect} from "react-redux";
 import {changeCard} from "./actions";
 import {getCardInfo, getErrorCard} from "./reducers";
+import { Form, Field } from 'react-final-form';
 
 
 class ProfileForm extends React.Component {
-  state = {
-    inputs: {
-      expiryDate: '',
-      cardNumber: '',
-      cardName: '',
-      cvc: ''
-    },
-    errorData: []
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      inputs: {
-        expiryDate: '',
-        cardNumber: '',
-        cardName: '',
-        cvc: ''
-      },
-      errorData: []
-    };
-
-    if (this.props.cardInfo.cardNumber) {
-      this.state.inputs = {...this.state.inputs, ...this.props.cardInfo};
-    }
-  }
-
-
-  onChange = event => {
-    if (this.state.inputs[event.target.id] !== undefined) {
-      this.setState({inputs: {
-          ...this.state.inputs,
-          [event.target.id]: event.target.value
-        }});
-    }
-  }
-
-  submit = () => {
-    let errorData = [];
-    for (let inputName in this.state.inputs) {
-      const value = this.state.inputs[inputName];
-
-      if (value === '') {
-        errorData.push(inputName);
-      }
-    }
-
-    this.setState({errorData});
-
-    if (errorData.length) {
-      return false;
-    }
-
-    this.props.changeCard(this.state.inputs);
+  submit = (values) => {
+    this.props.changeCard(values);
   }
 
   render() {
@@ -75,62 +23,119 @@ class ProfileForm extends React.Component {
           <div>Введите платежные данные</div>
         </div>
 
-        <div style={{width: '335px'}}>
-          <div>
-            <TextField
-              id="cardName"
-              onChange={this.onChange}
-              label="Имя владельца*"
-              defaultValue={this.props.cardInfo.cardName || ''}
-              variant="standard"
-              error={this.state.errorData.indexOf('cardName') !== -1}
-              fullWidth
-            />
-          </div>
-          <div>
-            <TextField
-              id="cardNumber"
-              onChange={this.onChange}
-              label="Номер карты*"
-              defaultValue={this.props.cardInfo.cardNumber || ''}
-              type="number"
-              variant="standard"
-              error={this.state.errorData.indexOf('cardNumber') !== -1}
-              fullWidth
-            />
-          </div>
-          <div>
-            <TextField
-              id="expiryDate"
-              onChange={this.onChange}
-              label="MM/YY*"
-              defaultValue={this.props.cardInfo.expiryDate || ''}
-              placeholder="MM/YY*"
-              variant="standard"
-              error={this.state.errorData.indexOf('expiryDate') !== -1}
-            />
-            <TextField
-              id="cvc"
-              onChange={this.onChange}
-              label="CVC*"
-              placeholder="***"
-              type="password"
-              defaultValue={this.props.cardInfo.cvc || ''}
-              variant="standard"
-              error={this.state.errorData.indexOf('cvc') !== -1}
-            />
-          </div>
-        </div>
+        <Form
+          onSubmit={this.submit}
+          validate={values => {
+            const errors = {};
+            const keys = {expiryDate: 0,
+              cardNumber: 0,
+              cardName: 0,
+              cvc: 0};
 
-        <div className="profile-card">
-          <MCIcon/>
-          <div className="date">{this.state.inputs.expiryDate}</div>
-          <div className="card-number">{this.state.inputs.cardNumber}</div>
-        </div>
+            for (let key in keys) {
+              if (!values[key]) {
+                errors[key] = true;
+              }
+            }
 
-        <div style={{color: 'red'}}>{this.props.errorCard || ''}</div>
+            return errors
+          }}
+          render={({ handleSubmit, form, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
 
-        <Button color="primary" variant="contained" onClick={this.submit}>Сохранить</Button>
+              <div style={{width: '335px'}}>
+                <div>
+
+                  <Field name="cardName" initialValue={this.props.cardInfo.cardName || ''}>
+                    {({ input, meta }) => (
+                      <TextField
+                        error={meta.error && meta.touched}
+                        {...input}
+                        inputProps={{
+                          'data-testid': "textfield-login-email"
+                        }}
+                        label="Имя владельца*"
+                        variant="standard"
+                        fullWidth
+                      />
+                    )}
+                  </Field>
+
+                </div>
+                <div>
+
+                  <Field name="cardNumber" initialValue={this.props.cardInfo.cardNumber || ''}>
+                    {({ input, meta }) => (
+                      <TextField
+                        error={meta.error && meta.touched}
+                        {...input}
+                        inputProps={{
+                          'data-testid': "textfield-login-email"
+                        }}
+                        label="Номер карты*"
+                        variant="standard"
+                        fullWidth
+                      />
+                    )}
+                  </Field>
+
+                </div>
+                <div>
+
+                  <Field name="expiryDate" initialValue={this.props.cardInfo.expiryDate || ''}>
+                    {({ input, meta }) => (
+                      <TextField
+                        error={meta.error && meta.touched}
+                        {...input}
+                        inputProps={{
+                          'data-testid': "textfield-login-email"
+                        }}
+                        label="MM/YY*"
+                        variant="standard"
+                        placeholder="MM/YY*"
+                      />
+                    )}
+                  </Field>
+
+                  <Field name="cvc" initialValue={this.props.cardInfo.cvc || ''}>
+                    {({ input, meta }) => (
+                      <TextField
+                        error={meta.error && meta.touched}
+                        {...input}
+                        inputProps={{
+                          'data-testid': "textfield-login-email"
+                        }}
+                        label="CVC*"
+                        variant="standard"
+                        placeholder="***"
+                        type="password"
+                      />
+                    )}
+                  </Field>
+
+                </div>
+              </div>
+
+              <div className="profile-card">
+                <MCIcon/>
+                <div className="date">{values.expiryDate}</div>
+                <div className="card-number">{values.cardNumber}</div>
+              </div>
+
+              <div style={{color: 'red'}}>{this.props.errorCard || ''}</div>
+
+              <Button
+                variant="contained"
+                onClick={form.submit}
+                disabled={submitting}
+                fullWidth
+              >Сохранить</Button>
+
+            </form>
+          )}
+        />
+
+
       </div>
     );
   }
