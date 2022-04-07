@@ -4,15 +4,40 @@ import {MCIcon} from 'loft-taxi-mui-theme';
 import './css/Map.css'
 import './css/Profile.css';
 import {connect} from "react-redux";
-import {changeCard} from "./actions";
+import {changeCard, emptyLinestring} from "./actions";
 import {getCardInfo, getErrorCard} from "./reducers";
 import { Form, Field } from 'react-final-form';
 
 
 class ProfileForm extends React.Component {
+  componentDidMount() {
+    this.props.emptyLinestring();
+  }
+
   submit = (values) => {
     this.props.changeCard(values);
   }
+
+  normalizeCard = value => {
+    if (!value) return value;
+
+    const onlyNums = value.replace(/[^\d]/g, "").substr(0, 16);
+    return onlyNums.length ? onlyNums.match(/.{1,4}/g).join(' ') : '';
+  };
+
+  normalizeDate = value => {
+    if (!value) return value;
+
+    const onlyNums = value.replace(/[^\d]/g, "").substr(0, 4);
+
+    return onlyNums.length ? onlyNums.match(/.{1,2}/g).join('/') : '';
+  };
+
+  normalizeCvc = value => {
+    if (!value) return value;
+
+    return value.replace(/[^\d]/g, "").substr(0,3);
+  };
 
   render() {
     return (
@@ -27,14 +52,18 @@ class ProfileForm extends React.Component {
           onSubmit={this.submit}
           validate={values => {
             const errors = {};
-            const keys = {expiryDate: 0,
-              cardNumber: 0,
+            const valLength = {expiryDate: 5,
+              cardNumber: 17,
               cardName: 0,
-              cvc: 0};
+              cvc: 3};
 
-            for (let key in keys) {
+            for (let key in valLength) {
               if (!values[key]) {
                 errors[key] = true;
+              } else {
+                if (valLength[key] && values[key].length < valLength[key]) {
+                  errors[key] = true;
+                }
               }
             }
 
@@ -64,7 +93,7 @@ class ProfileForm extends React.Component {
                 </div>
                 <div>
 
-                  <Field name="cardNumber" initialValue={this.props.cardInfo.cardNumber || ''}>
+                  <Field name="cardNumber" initialValue={this.props.cardInfo.cardNumber || ''} parse={this.normalizeCard}>
                     {({ input, meta }) => (
                       <TextField
                         error={meta.error && meta.touched}
@@ -73,6 +102,7 @@ class ProfileForm extends React.Component {
                           'data-testid': "textfield-login-email"
                         }}
                         label="Номер карты*"
+                        placeholder="XXXX XXXX XXXX XXXX"
                         variant="standard"
                         fullWidth
                       />
@@ -82,7 +112,7 @@ class ProfileForm extends React.Component {
                 </div>
                 <div>
 
-                  <Field name="expiryDate" initialValue={this.props.cardInfo.expiryDate || ''}>
+                  <Field name="expiryDate" initialValue={this.props.cardInfo.expiryDate || ''} parse={this.normalizeDate}>
                     {({ input, meta }) => (
                       <TextField
                         error={meta.error && meta.touched}
@@ -97,7 +127,7 @@ class ProfileForm extends React.Component {
                     )}
                   </Field>
 
-                  <Field name="cvc" initialValue={this.props.cardInfo.cvc || ''}>
+                  <Field name="cvc" initialValue={this.props.cardInfo.cvc || ''} parse={this.normalizeCvc}>
                     {({ input, meta }) => (
                       <TextField
                         error={meta.error && meta.touched}
@@ -143,5 +173,5 @@ class ProfileForm extends React.Component {
 
 export default connect(
   (state) => ({errorCard: getErrorCard(state), cardInfo: getCardInfo(state)}),
-  {changeCard}
+  {changeCard, emptyLinestring}
 )(ProfileForm);

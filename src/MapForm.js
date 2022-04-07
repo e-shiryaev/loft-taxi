@@ -19,11 +19,11 @@ class MapForm extends React.Component {
   }
 
   submit = (values) => {
-    const comboToValue = values.comboTo || '';
-    const comboFromValue = values.comboFrom || ''
+    const comboToValue = values.comboTo;
+    const comboFromValue = values.comboFrom;
     const {addresses} = this.props;
 
-    if (comboToValue === '' || comboFromValue === '') {
+    if (comboToValue === undefined || comboFromValue === undefined) {
       this.setState({error: 'Необходимо выбрать адреса'});
       return;
     }
@@ -64,6 +64,8 @@ class MapForm extends React.Component {
                   )}
                 </Field>
 
+                <div style={{color: "red"}}>{this.state.error || this.props.errorRoute}</div>
+
                 <Button
                   variant="contained"
                   onClick={form.submit}
@@ -75,8 +77,6 @@ class MapForm extends React.Component {
             )
           }}
         />
-
-        <div style={{color: "red"}}>{this.state.error || this.props.errorRoute}</div>
       </div>
     );
   }

@@ -15,6 +15,7 @@ export const MAP_ADDRESS_REQUEST = 'MAP_ADDRESS_REQUEST';
 export const MAP_ADDRESS_SUCCESS = 'MAP_ADDRESS_SUCCESS';
 export const MAP_ROUTE_SUCCESS = 'MAP_ROUTE_SUCCESS';
 export const MAP_ROUTE_REQUEST = 'MAP_ROUTE_REQUEST';
+export const MAP_ROUTE_EMPTY = 'MAP_ROUTE_EMPTY';
 export const MAP_ALL_ERROR = 'MAP_ALL_ERROR';
 
 export const logIn = (token) => ({type: LOG_IN_SUCCESS, payload: {token}});
@@ -30,4 +31,5 @@ export const setAddressList = (addressList) => ({type: MAP_ADDRESS_SUCCESS, payl
 export const loadRoute = (from, to) => ({type: MAP_ROUTE_REQUEST, payload: {from, to}});
 export const errorRoute = (error) => ({type: MAP_ALL_ERROR, payload: {error}});
 export const setLinestring = (linestring) => ({type: MAP_ROUTE_SUCCESS, payload: {linestring}});
+export const emptyLinestring = () => ({type: MAP_ROUTE_EMPTY});
 export const registration = (inputs) => ({type: REGISTRATION_REQUEST, payload: {...inputs}});
